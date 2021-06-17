@@ -1,14 +1,47 @@
 const db = require('./db');
+const { v4: uuid } = require('uuid');
 
-const getAll = async () => {};
+// Get all
+const getAll = async () => {
+  return db.get('projects').value();
+};
 
-const getById = async contactId => {};
+// Get by ID
+const getById = async id => {
+  return db.get('projects').find({ id }).value();
+};
 
-const remove = async contactId => {};
+// Remove
+const remove = async id => {
+  const [record] = db.remove('projects').find({ id }).write();
 
-const create = async body => {};
+  return record;
+};
 
-const update = async (contactId, body) => {};
+// Create
+const create = async body => {
+  const id = uuid();
+
+  const record = {
+    id,
+    ...body,
+    ...(body.source
+      ? {}
+      : { source: `https://github.com/itstoreall/${body.name}` }),
+  };
+
+  db.get('prejects').push(record).write();
+
+  return record;
+};
+
+// Update
+const update = async (id, body) => {
+  const record = db.get('projects').find({ id }).assign(body).value();
+  db.write();
+
+  return record.id ? record : null;
+};
 
 module.exports = {
   getAll,
