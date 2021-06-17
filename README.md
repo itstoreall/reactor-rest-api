@@ -12,3 +12,4 @@ _Use:_
 - morgan
 - eslint-config-prettier
 - eslint-plugin-json
+- lowdb
