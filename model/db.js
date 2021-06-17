@@ -4,6 +4,7 @@ const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync('./model/projects.json');
 const db = low(adapter);
 
+// Essences
 db.defaults({ projects: [] }).write();
 
 module.exports = db;

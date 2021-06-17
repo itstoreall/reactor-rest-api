@@ -78,7 +78,8 @@ git merge main (находясь в своей локальной ветке п�
 /* ==============================================
 ** Installs:
 
-npm install lowdb
+npm i joi
+npm i lowdb
 npm i eslint-plugin-json -DE
 npm i eslint-config-prettier -DE
 npm i

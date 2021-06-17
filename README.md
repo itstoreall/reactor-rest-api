@@ -13,3 +13,4 @@ _Use:_
 - eslint-config-prettier
 - eslint-plugin-json
 - lowdb
+- joi

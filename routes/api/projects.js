@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Projects = require('../../model/projects');
+const {
+  validateCreate,
+  validateUpdate,
+  validateUsed,
+} = require('./projectValidation');
 
 // GET
 router.get('/', async (req, res, next) => {
@@ -35,7 +40,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // POST
-router.post('/', async (req, res, next) => {
+router.post('/', validateCreate, async (req, res, next) => {
   try {
     const project = await Projects.create(req.body);
 
@@ -67,7 +72,7 @@ router.delete('/:id', async (req, res, next) => {
 });
 
 // PUT
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', validateUpdate, async (req, res, next) => {
   try {
     const project = await Projects.update(req.params.id, req.body);
 
@@ -86,7 +91,7 @@ router.put('/:id', async (req, res, next) => {
 });
 
 // PATCH
-router.patch('/:id/used', async (req, res, next) => {
+router.patch('/:id/used', validateUsed, async (req, res, next) => {
   try {
     const project = await Projects.update(req.params.id, req.body);
 
