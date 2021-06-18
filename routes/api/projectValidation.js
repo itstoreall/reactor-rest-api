@@ -2,34 +2,48 @@ const Joi = require('joi');
 
 const schemaCreate = Joi.object({
   name: Joi.string().alphanum().min(2).max(25).required(),
-  alt: Joi.string().alphanum().min(2).required(),
-  title: Joi.string().alphanum().min(2).max(25).required(),
-  description: Joi.string().alphanum().min(2).max(100).required(),
-  requires: Joi.string().alphanum().min(2).max(30),
-  used: Joi.array().items(Joi.alphanum()).required(),
-  page: Joi.string(),
+  alt: Joi.string().required(),
+  title: Joi.string().min(2).max(25).required(),
+  description: Joi.string().min(2).max(100).required(),
+  requires: [Joi.string().alphanum().min(5).max(30), ''],
+  used: Joi.array().required(),
+  page: [Joi.string(), ''],
   source: Joi.string().required(),
-  src: Joi.array().items(Joi.alphanum()).required(),
+  src: Joi.array().required(),
 });
 
 const schemaUpdate = Joi.object({
   name: Joi.string().alphanum().min(2).max(25),
-  alt: Joi.string().alphanum().min(2),
-  title: Joi.string().alphanum().min(2).max(25),
-  description: Joi.string().alphanum().min(2).max(100),
-  requires: Joi.string().alphanum().min(2).max(30),
-  used: Joi.array().items(Joi.alphanum()),
-  page: Joi.string(),
+  alt: Joi.string(),
+  title: Joi.string().min(2).max(25),
+  description: Joi.string().min(2).max(100),
+  requires: [Joi.string().alphanum().min(5).max(30), ''],
+  used: Joi.array(),
+  page: [Joi.string(), ''],
   source: Joi.string(),
-  src: Joi.array().items(Joi.alphanum()),
+  src: Joi.array(),
 });
 
 const schemaUsed = Joi.object({
-  used: Joi.array().items(Joi.alphanum()).required(),
+  used: Joi.array().required(),
 });
 
 // Function Validation
 const validate = async (schema, body, next) => {
+  // console.log('body.requires.length-->', body.requires.length);
+  // console.log('body.page.length-->', body.page.length);
+
+  // if (body.requires.length === 0) {
+  //   body.requires = 'empty';
+  // }
+
+  // if (body.page.length === 0) {
+  //   body.page = 'empty';
+  // }
+
+  // console.log('body.requires-->', body.requires);
+  // console.log('body.page-->', body.page);
+
   try {
     await schema.validateAsync(body);
     next();

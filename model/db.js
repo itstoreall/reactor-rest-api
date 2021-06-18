@@ -1,16 +1,26 @@
-const low = require('lowdb');
+const { MongoClient } = require('mongoDB');
+require('dotenv').config();
+const uriDb = process.env.URI_DB;
 
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('./model/projects.json');
-const db = low(adapter);
+// Connect
+const db = MongoClient.connect(uriDb, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  poolSize: 5,
+});
 
-// Essences
-db.defaults({ projects: [] }).write();
+// Disconnect
+process.on('SIGINT', async () => {
+  const client = await db;
+  client.close();
+  console.log(' - MongoDB is Disconnected');
+  process.exit();
+});
 
 module.exports = db;
 
 /**
  * Database
- * - adapter (паттерн проектирования, адаптирует json данные под базу данных)
- * - db.defaults (пока json файла нету, создаем по умолчанию)
+ * - poolSize (кол-во запросов к базе за 1 сек)
+ * - process.on('SIGINT') ((закрытие) - обработка команды прирывания Ctrl + C)
  */
