@@ -1,5 +1,4 @@
 const db = require('./db');
-const { v4: uuid } = require('uuid');
 
 // Get all
 const getAll = async () => {
@@ -20,10 +19,7 @@ const remove = async id => {
 
 // Create
 const create = async body => {
-  const id = uuid();
-
   const record = {
-    id,
     ...body,
     ...(body.source
       ? {}

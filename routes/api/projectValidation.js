@@ -6,10 +6,10 @@ const schemaCreate = Joi.object({
   title: Joi.string().alphanum().min(2).max(25).required(),
   description: Joi.string().alphanum().min(2).max(100).required(),
   requires: Joi.string().alphanum().min(2).max(30),
-  used: Joi.array().items(Joi.alphanum()).required(),
+  used: Joi.array().required(),
   page: Joi.string(),
   source: Joi.string().required(),
-  src: Joi.array().items(Joi.alphanum()).required(),
+  src: Joi.array().required(),
 });
 
 const schemaUpdate = Joi.object({
@@ -18,14 +18,14 @@ const schemaUpdate = Joi.object({
   title: Joi.string().alphanum().min(2).max(25),
   description: Joi.string().alphanum().min(2).max(100),
   requires: Joi.string().alphanum().min(2).max(30),
-  used: Joi.array().items(Joi.alphanum()),
+  used: Joi.array(),
   page: Joi.string(),
   source: Joi.string(),
-  src: Joi.array().items(Joi.alphanum()),
+  src: Joi.array(),
 });
 
 const schemaUsed = Joi.object({
-  used: Joi.array().items(Joi.alphanum()).required(),
+  used: Joi.array().required(),
 });
 
 // Function Validation
