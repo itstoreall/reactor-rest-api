@@ -22,13 +22,13 @@ mongoose.connection.on('error', err => {
 
 // Disconnect event
 mongoose.connection.on('disconnected', () => {
-  console.log(' - Mongoose is Disconnected');
+  console.log(' - Mongoose is Disconnected!');
 });
 
 // Connection closure handler (Ctrl + C)
 process.on('SIGINT', async () => {
   mongoose.connection.close(() => {
-    console.log('Connection is closed');
+    console.log('Connection is closed.');
     process.exit();
   });
 });

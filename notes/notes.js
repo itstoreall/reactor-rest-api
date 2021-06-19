@@ -1,6 +1,9 @@
 /* ==============================================
 ** Notes:
 
+- bcryptjs (шифрует пароль)
+- jsonwebtoken (создает jwt-токены)
+- passport-jwt - валедирует jwt-токены, проводит аутентификацию
 - lowdb (позволяет работать с json файлами, как с базой банных)
 - cross-env (отвечает за правильную передачу переменных окружения под линух и винду)
 - morgan (Logger)
@@ -108,6 +111,10 @@ Mongoose ODM:
 /* ==============================================
 ** Installs:
 
+npm i bcryptjs
+npm i jsonwebtoken
+npm i passport-jwt
+npm i passport
 npm i mongoose -S
 npm i dotenv
 npm i joi

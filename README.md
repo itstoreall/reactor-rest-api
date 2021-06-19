@@ -1,11 +1,14 @@
 # Reactor REST-API
 
-v2.0.1
+v2.1.1
 
 _Use:_
 
--mongoose
-
+- bcryptjs
+- jsonwebtoken
+- passport-jwt
+- passport
+- mongoose
 - dotenv
 - joi
 - eslint-plugin-json
