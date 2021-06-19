@@ -1,10 +1,14 @@
 const Joi = require('joi');
 
 const schemaCreate = Joi.object({
-  name: Joi.string().alphanum().min(2).max(25).required(),
+  name: Joi.string().min(2).required(),
   alt: Joi.string().required(),
   title: Joi.string().min(2).max(25).required(),
-  description: Joi.string().min(2).max(100).required(),
+  description: Joi.string()
+    .regex(/^[A-Z][A-Za-z0-9\s,.=-]+$/)
+    .min(2)
+    .max(100)
+    .required(),
   requires: [Joi.string().alphanum().min(5).max(30), ''],
   used: Joi.array().required(),
   page: [Joi.string(), ''],
@@ -16,7 +20,10 @@ const schemaUpdate = Joi.object({
   name: Joi.string().alphanum().min(2).max(25),
   alt: Joi.string(),
   title: Joi.string().min(2).max(25),
-  description: Joi.string().min(2).max(100),
+  description: Joi.string()
+    .regex(/^[A-Z][A-Za-z0-9\s,.=-]+$/)
+    .min(2)
+    .max(100),
   requires: [Joi.string().alphanum().min(5).max(30), ''],
   used: Joi.array(),
   page: [Joi.string(), ''],
@@ -30,20 +37,6 @@ const schemaUsed = Joi.object({
 
 // Function Validation
 const validate = async (schema, body, next) => {
-  // console.log('body.requires.length-->', body.requires.length);
-  // console.log('body.page.length-->', body.page.length);
-
-  // if (body.requires.length === 0) {
-  //   body.requires = 'empty';
-  // }
-
-  // if (body.page.length === 0) {
-  //   body.page = 'empty';
-  // }
-
-  // console.log('body.requires-->', body.requires);
-  // console.log('body.page-->', body.page);
-
   try {
     await schema.validateAsync(body);
     next();

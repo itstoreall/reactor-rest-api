@@ -47,8 +47,11 @@ router.post('/', validateCreate, async (req, res, next) => {
     return res
       .status(201)
       .json({ status: 'success', code: 201, data: { project } });
-  } catch (error) {
-    next(error);
+  } catch (e) {
+    if (e.name === 'ValidationError') {
+      e.status = 400;
+    }
+    next(e);
   }
 });
 

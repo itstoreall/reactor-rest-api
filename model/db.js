@@ -1,20 +1,36 @@
-const { MongoClient } = require('mongoDB');
+const mongoose = require('mongoose');
 require('dotenv').config();
 const uriDb = process.env.URI_DB;
 
 // Connect
-const db = MongoClient.connect(uriDb, {
+const db = mongoose.connect(uriDb, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
   poolSize: 5,
 });
 
-// Disconnect
+// Connection event
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose is Connected');
+});
+
+// Error event during connection
+mongoose.connection.on('error', err => {
+  console.log(`Error connecting the Mongoose: ${err.message}`);
+});
+
+// Disconnect event
+mongoose.connection.on('disconnected', () => {
+  console.log(' - Mongoose is Disconnected');
+});
+
+// Connection closure handler (Ctrl + C)
 process.on('SIGINT', async () => {
-  const client = await db;
-  client.close();
-  console.log(' - MongoDB is Disconnected');
-  process.exit();
+  mongoose.connection.close(() => {
+    console.log('Connection is closed');
+    process.exit();
+  });
 });
 
 module.exports = db;
@@ -23,4 +39,5 @@ module.exports = db;
  * Database
  * - poolSize (кол-во запросов к базе за 1 сек)
  * - process.on('SIGINT') ((закрытие) - обработка команды прирывания Ctrl + C)
+ * - useCreateIndex (для ускоренного поиска для полей по которым часто идет поиск)
  */
