@@ -9,7 +9,7 @@ const getAll = async () => {
 // Get by ID
 const getById = async id => {
   const result = await ProjectModel.findOne({ _id: id });
-  console.log('Creation time:', result._id.getTimestamp());
+  // console.log('Creation time:', result._id.getTimestamp()); // *
   return result;
 };
 
