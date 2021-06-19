@@ -1,11 +1,12 @@
 # Reactor REST-API
 
-v1.0.1
+v2.0.1
 
 _Use:_
 
+-mongoose
+
 - dotenv
-- mongodb
 - joi
 - eslint-plugin-json
 - eslint-config-prettier

@@ -25,10 +25,12 @@ router.get('/:id', async (req, res, next) => {
   try {
     const project = await Projects.getById(req.params.id);
 
+    console.log('toObject()-->', project); // toObject() *
+
     if (project) {
       return res
         .status(200)
-        .json({ status: 'success', code: 200, data: { project } });
+        .json({ status: 'success', code: 200, data: { project } }); // toJSON() *
     }
 
     return res
@@ -47,8 +49,11 @@ router.post('/', validateCreate, async (req, res, next) => {
     return res
       .status(201)
       .json({ status: 'success', code: 201, data: { project } });
-  } catch (error) {
-    next(error);
+  } catch (e) {
+    if (e.name === 'ValidationError') {
+      e.status = 400;
+    }
+    next(e);
   }
 });
 

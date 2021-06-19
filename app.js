@@ -14,6 +14,7 @@ app.use(express.json());
 
 app.use('/api/projects', projectsRouter);
 
+// If right url is not found
 app.use((req, res) => {
   res.status(404).json({ status: 'error', code: 404, message: 'Not found' });
 });
