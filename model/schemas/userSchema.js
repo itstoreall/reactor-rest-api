@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
+const {
+  Gender: { MALE, FEMALE, NONE },
+} = require('../../helpers/constants');
+const bcrypt = require('bcryptjs');
+
+const SALT_FACTOR = 6;
 
 // Schema
 const userSchema = new Schema(
@@ -9,17 +15,32 @@ const userSchema = new Schema(
       minLength: 2,
       required: true,
     },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+
+      // Optional validation
+      validate(value) {
+        const regul = /\S+@\S+\.\S+/gi;
+        return regul.test(String(value).tiLowerCase());
+      },
+    },
     gender: {
       type: String,
       enum: {
-        values: ['male', 'female', 'none'],
+        values: [MALE, FEMALE, NONE],
         message: 'But it not allowed',
       },
-      default: 'none',
+      default: NONE,
     },
-    owner: {
-      name: String,
-      email: String,
+    password: {
+      type: String,
+      required: true,
+    },
+    token: {
+      type: String,
+      default: null,
     },
   },
   {
@@ -28,19 +49,27 @@ const userSchema = new Schema(
   },
 );
 
-// Virtual field
-userSchema.virtual('isView').get(function () {
-  return `Project ${this.title} requires a Server`;
+// Password encryption (if it has changed or created)
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(SALT_FACTOR);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+  next();
 });
 
-// Checking
-userSchema.path('description').validate(value => {
-  // const regul = /^[a-zA-Z0-9\s.,]+/g;
-  const regul = /^[A-Z][A-Za-z0-9\s,.=-]+$/;
-  return regul.test(String(value));
-});
+// Password validation
+userSchema.methods.validPassword = async function (password) {
+  return await bcrypt.compare(String(password), this.password);
+};
 
 // Model (is a Class)
-const ProjectModel = mongoose.model('project', userSchema);
+const UserModel = mongoose.model('user', userSchema);
 
-module.exports = ProjectModel;
+module.exports = UserModel;
+
+/**
+ * - userSchema.pre('') (сделать перед... - первый парам. - метод)
+ * - userSchema.methods.validPassword (свойство methods хранит статические свойства юзерСхемы)
+ * можно добавлять любые методы (например на экземпляр нашей модели (user) мы добавляем фунцию validPassword)
+ */

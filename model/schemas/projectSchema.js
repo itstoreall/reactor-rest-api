@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema } = require('mongoose');
+const { Schema, SchemaType } = require('mongoose');
 
 // Schema
 const projectSchema = new Schema(
@@ -46,8 +46,8 @@ const projectSchema = new Schema(
       set: data => data || [],
     },
     owner: {
-      name: String,
-      email: String,
+      type: SchemaType.ObjectId, // id from Mongoose
+      ref: 'user', // link to user collection
     },
   },
   {
