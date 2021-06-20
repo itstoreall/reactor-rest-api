@@ -4,6 +4,7 @@ const { HttpCode } = require('../helpers/constants');
 // GET
 const getAll = async (req, res, next) => {
   try {
+    console.log(`User ${req.user.name} is hashed`); // hashing user
     const projects = await ProjectController.getAll();
 
     return res

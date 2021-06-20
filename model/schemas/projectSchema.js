@@ -45,10 +45,6 @@ const projectSchema = new Schema(
       required: true,
       set: data => data || [],
     },
-    // owner: {
-    //   type: SchemaTypes.ObjectId,
-    //   ref: 'user',
-    // },
     owner: {
       type: SchemaTypes.ObjectId, // id from Mongoose
       ref: 'user', // link to user collection

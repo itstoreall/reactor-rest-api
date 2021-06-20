@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ctrl = require('../../../controllers/projectController');
+const guard = require('../../../helpers/guard');
 
 const {
   validateCreate,
@@ -9,22 +10,22 @@ const {
 } = require('./projectValidation');
 
 // GET
-router.get('/', ctrl.getAll);
+router.get('/', guard, ctrl.getAll);
 
 // GET by ID
-router.get('/:id', ctrl.getById);
+router.get('/:id', guard, ctrl.getById);
 
 // POST
-router.post('/', validateCreate, ctrl.create);
+router.post('/', guard, validateCreate, ctrl.create);
 
 // DELETE
-router.delete('/:id', ctrl.remove);
+router.delete('/:id', guard, ctrl.remove);
 
 // PUT
-router.put('/:id', validateUpdate, ctrl.update);
+router.put('/:id', guard, validateUpdate, ctrl.update);
 
 // PATCH
-router.patch('/:id/used', validateUsed, ctrl.update);
+router.patch('/:id/used', guard, validateUsed, ctrl.update);
 
 module.exports = router;
 

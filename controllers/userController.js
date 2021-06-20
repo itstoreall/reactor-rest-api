@@ -50,6 +50,8 @@ const login = async (req, res, next) => {
 
     const payload = { id: user.id };
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1d' });
+
+    // Writes the token into the database
     await UserModel.updateToken(user.id, token);
 
     return res.status(HttpCode.OK).json({
