@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema, SchemaType } = require('mongoose');
+const { Schema, SchemaTypes } = require('mongoose');
 
 // Schema
 const projectSchema = new Schema(
@@ -45,8 +45,12 @@ const projectSchema = new Schema(
       required: true,
       set: data => data || [],
     },
+    // owner: {
+    //   type: SchemaTypes.ObjectId,
+    //   ref: 'user',
+    // },
     owner: {
-      type: SchemaType.ObjectId, // id from Mongoose
+      type: SchemaTypes.ObjectId, // id from Mongoose
       ref: 'user', // link to user collection
     },
   },

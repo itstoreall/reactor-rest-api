@@ -1,10 +1,10 @@
-const Projects = require('../model/projects');
+const ProjectController = require('../model/projectModel');
 const { HttpCode } = require('../helpers/constants');
 
 // GET
 const getAll = async (req, res, next) => {
   try {
-    const projects = await Projects.getAll();
+    const projects = await ProjectController.getAll();
 
     return res
       .status(HttpCode.OK)
@@ -17,7 +17,7 @@ const getAll = async (req, res, next) => {
 // GET by ID
 const getById = async (req, res, next) => {
   try {
-    const project = await Projects.getById(req.params.id);
+    const project = await ProjectController.getById(req.params.id);
 
     console.log('toObject()-->', project); // toObject() *
 
@@ -27,13 +27,11 @@ const getById = async (req, res, next) => {
         .json({ status: 'success', code: HttpCode.OK, data: { project } }); // toJSON() *
     }
 
-    return res
-      .status(HttpCode.NOT_FOUND)
-      .json({
-        status: 'error',
-        code: HttpCode.NOT_FOUND,
-        message: 'Project Not Found',
-      });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Project Not Found',
+    });
   } catch (error) {
     next(error);
   }
@@ -42,7 +40,7 @@ const getById = async (req, res, next) => {
 // POST
 const create = async (req, res, next) => {
   try {
-    const project = await Projects.create(req.body);
+    const project = await ProjectController.create(req.body);
 
     return res
       .status(HttpCode.CREATED)
@@ -58,7 +56,7 @@ const create = async (req, res, next) => {
 // DELETE
 const remove = async (req, res, next) => {
   try {
-    const project = await Projects.remove(req.params.id);
+    const project = await ProjectController.remove(req.params.id);
 
     if (project) {
       return res
@@ -66,13 +64,11 @@ const remove = async (req, res, next) => {
         .json({ status: 'success', code: HttpCode.OK, data: { project } });
     }
 
-    return res
-      .status(HttpCode.NOT_FOUND)
-      .json({
-        status: 'error',
-        code: HttpCode.NOT_FOUND,
-        message: 'Project Not Found',
-      });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Project Not Found',
+    });
   } catch (error) {
     next(error);
   }
@@ -81,7 +77,7 @@ const remove = async (req, res, next) => {
 // PUT
 const update = async (req, res, next) => {
   try {
-    const project = await Projects.update(req.params.id, req.body);
+    const project = await ProjectController.update(req.params.id, req.body);
 
     if (project) {
       return res
@@ -89,13 +85,11 @@ const update = async (req, res, next) => {
         .json({ status: 'success', code: HttpCode.OK, data: { project } });
     }
 
-    return res
-      .status(HttpCode.NOT_FOUND)
-      .json({
-        status: 'error',
-        code: HttpCode.NOT_FOUND,
-        message: 'Project Not Found',
-      });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Project Not Found',
+    });
   } catch (error) {
     next(error);
   }
@@ -121,3 +115,7 @@ const update = async (req, res, next) => {
 // };
 
 module.exports = { getAll, getById, create, remove, update };
+
+/**
+ * Controllers
+ */

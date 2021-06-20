@@ -3,7 +3,8 @@ const logger = require('morgan');
 const cors = require('cors');
 const { HttpCode } = require('./helpers/constants');
 
-const projectsRouter = require('./routes/api/projects');
+const userRouter = require('./routes/api/users');
+const projectRouter = require('./routes/api/projects');
 
 const app = express();
 
@@ -13,7 +14,8 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/projects', projectsRouter);
+app.use('/api/users', userRouter);
+app.use('/api/projects', projectRouter);
 
 // If right url is not found
 app.use((req, res) => {

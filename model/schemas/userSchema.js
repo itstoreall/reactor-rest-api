@@ -22,8 +22,8 @@ const userSchema = new Schema(
 
       // Optional validation
       validate(value) {
-        const regul = /\S+@\S+\.\S+/gi;
-        return regul.test(String(value).tiLowerCase());
+        const re = /\S+@\S+\.\S+/gi;
+        return re.test(String(value).toLowerCase());
       },
     },
     gender: {
