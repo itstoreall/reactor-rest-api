@@ -28,5 +28,6 @@ module.exports = guard;
 /**
  * Guard - Authorized
  *
- *  - passport.authenticate() (Middleware)
+ * - guard добавляет в req юзера и мы можем получить его в контроллерах
+ * - passport.authenticate() (Middleware)
  */

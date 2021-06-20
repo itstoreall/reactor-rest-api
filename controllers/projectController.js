@@ -4,7 +4,7 @@ const { HttpCode } = require('../helpers/constants');
 // GET
 const getAll = async (req, res, next) => {
   try {
-    console.log(`User ${req.user.name} is hashed`); // hashing user
+    // console.log(`User ${req.user.name} is hashed`); // hashing user *
     const projects = await ProjectController.getAll();
 
     return res
@@ -20,7 +20,7 @@ const getById = async (req, res, next) => {
   try {
     const project = await ProjectController.getById(req.params.id);
 
-    console.log('toObject()-->', project); // toObject() *
+    // console.log('toObject()-->', project); // toObject() *
 
     if (project) {
       return res
@@ -38,10 +38,14 @@ const getById = async (req, res, next) => {
   }
 };
 
-// POST
+// CREATE
 const create = async (req, res, next) => {
   try {
-    const project = await ProjectController.create(req.body);
+    const userId = req.user.id;
+    const project = await ProjectController.create({
+      ...req.body,
+      owner: userId,
+    });
 
     return res
       .status(HttpCode.CREATED)
@@ -57,7 +61,8 @@ const create = async (req, res, next) => {
 // DELETE
 const remove = async (req, res, next) => {
   try {
-    const project = await ProjectController.remove(req.params.id);
+    const userId = req.user.id;
+    const project = await ProjectController.remove(userId, req.params.id);
 
     if (project) {
       return res
@@ -75,10 +80,15 @@ const remove = async (req, res, next) => {
   }
 };
 
-// PUT
+// UPDATE
 const update = async (req, res, next) => {
   try {
-    const project = await ProjectController.update(req.params.id, req.body);
+    const userId = req.user.id;
+    const project = await ProjectController.update(
+      userId,
+      req.params.id,
+      req.body,
+    );
 
     if (project) {
       return res
@@ -95,25 +105,6 @@ const update = async (req, res, next) => {
     next(error);
   }
 };
-
-// PATCH
-// async (req, res, next) => {
-//   try {
-//     const project = await Projects.update(req.params.id, req.body);
-
-//     if (project) {
-//       return res
-//         .status(200)
-//         .json({ status: 'success', code: 200, data: { project } });
-//     }
-
-//     return res
-//       .status(404)
-//       .json({ status: 'error', code: 404, message: 'Project Not Found' });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 module.exports = { getAll, getById, create, remove, update };
 

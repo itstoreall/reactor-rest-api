@@ -20,15 +20,18 @@ const create = async body => {
 };
 
 // Remove
-const remove = async id => {
-  const result = await ProjectSchema.findByIdAndRemove({ _id: id });
+const remove = async (userId, id) => {
+  const result = await ProjectSchema.findByIdAndRemove({
+    _id: id,
+    owner: userId,
+  });
   return result;
 };
 
 // Update
-const update = async (id, body) => {
+const update = async (userId, id, body) => {
   const result = await ProjectSchema.findOneAndUpdate(
-    { _id: id },
+    { _id: id, owner: userId },
     { ...body },
     { new: true },
   );

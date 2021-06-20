@@ -10,10 +10,10 @@ const {
 } = require('./projectValidation');
 
 // GET
-router.get('/', guard, ctrl.getAll);
+router.get('/', ctrl.getAll);
 
 // GET by ID
-router.get('/:id', guard, ctrl.getById);
+router.get('/:id', ctrl.getById);
 
 // POST
 router.post('/', guard, validateCreate, ctrl.create);
