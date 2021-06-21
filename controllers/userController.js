@@ -67,7 +67,8 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
-  //
+  await UserModel.updateToken(req.user.id, null);
+  return res.status(HttpCode.NO_CONTENT).json({});
 };
 
 module.exports = {
@@ -81,4 +82,6 @@ module.exports = {
  * -
  * - payload (полезная нагрузка - в него можно ложить все что угодно)
  * - expiresIn (token lifetime: 1m - 1 minute, 1d - 1 day, 1w - 1 week, 1h - 1 hour)
+ *
+ * - В Logout обязательно возвращать пустой объект
  */

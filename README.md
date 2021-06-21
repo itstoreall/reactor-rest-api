@@ -4,6 +4,7 @@ v2.2.1
 
 _Use:_
 
+- express-query-boolean
 - mongoose-paginate-v2
 - bcryptjs
 - jsonwebtoken

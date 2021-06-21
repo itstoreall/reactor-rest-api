@@ -1,8 +1,8 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const boolParser = require('express-query-boolean');
 const { HttpCode } = require('./helpers/constants');
-
 const userRouter = require('./routes/api/users');
 const projectRouter = require('./routes/api/projects');
 
@@ -13,6 +13,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+app.use(boolParser()); // converts query-string to boolean
 
 app.use('/api/users', userRouter);
 app.use('/api/projects', projectRouter);

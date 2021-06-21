@@ -111,6 +111,7 @@ Mongoose ODM:
 /* ==============================================
 ** Installs:
 
+npm i express-query-boolean
 npm i mongoose-paginate-v2
 npm i bcryptjs
 npm i jsonwebtoken

@@ -17,7 +17,7 @@ const getFiltered = async (userId, query) => {
     offset = 0,
     sortBy,
     sortByDesk,
-    filter,
+    filter, // &filter=name|title|restApi
     restApi = null,
   } = query;
   console.log('restApi-->', Boolean(restApi));
@@ -27,11 +27,19 @@ const getFiltered = async (userId, query) => {
     optionSearch.restApi = restApi;
   }
 
-  const results = await ProjectSchema.paginate(optionSearch, { limit, offset });
+  const results = await ProjectSchema.paginate(optionSearch, {
+    limit,
+    offset,
+    select: filter ? filter.split('|').join(' ') : '', // --> name title restApi
+    sort: {
+      ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+      ...(sortByDesk ? { [`${sortByDesk}`]: -1 } : {}),
+    },
+  });
 
   // Converts the answer from paginate
   const { docs: projects, totalDocs: total } = results;
-
+  console.log(total);
   // const results = await ProjectSchema.findOne({ owner: userId }).populate({
   //   path: 'owner',
   //   select: 'name email gender -_id',
@@ -96,5 +104,9 @@ module.exports = {
  * sortByDesk - сорт полей по убыванию;
  * filter - возвращать не все поля, а некоторые
  *
- * .paginate(optionsSearch, {limit, ...}) - вторым парам. в пагинэйт передаются настройки
+ * - .paginate(optionsSearch, {limit, ...}) - вторым парам. в пагинэйт передаются настройки
+ * - filter = select (поля которые дать в выдачу json)
+ * - sort: { ...(sortBy ? {[`${sortBy}`] : 1} : {}) } (если пришло какае-то поле - [}: - указываем имя
+ * этого поля и 1 единичка - сортировать по нему. Оборачиваем в объект (для тернарника) и если не пришло
+ * то - : {} - возвращаем пустой объект. То же и для sortByDesk только -1 - в другую сторону сорт.)
  */
