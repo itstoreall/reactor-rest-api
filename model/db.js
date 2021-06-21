@@ -22,7 +22,7 @@ mongoose.connection.on('error', err => {
 
 // Disconnect event
 mongoose.connection.on('disconnected', () => {
-  console.log(' - Mongoose is Disconnected!');
+  console.log(' --> Mongoose is Disconnected!');
 });
 
 // Connection closure handler (Ctrl + C)
