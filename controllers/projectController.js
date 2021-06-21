@@ -1,12 +1,10 @@
-const ProjectController = require('../model/projectModel');
+const ProjectModel = require('../model/projectModel');
 const { HttpCode } = require('../helpers/constants');
 
 // GET
 const getAll = async (req, res, next) => {
   try {
-    // console.log(`User ${req.user.name} is hashed`); // hashing user *
-    const projects = await ProjectController.getAll();
-
+    const projects = await ProjectModel.getAll(req.query);
     return res
       .status(HttpCode.OK)
       .json({ status: 'success', code: HttpCode.OK, data: { projects } });
@@ -15,11 +13,30 @@ const getAll = async (req, res, next) => {
   }
 };
 
+// GET Filtered
+const getFiltered = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    // const projects = await ProjectModel.getFiltered(userId);
+    const { projects, total, limit, offset } = await ProjectModel.getFiltered(
+      userId,
+      req.query,
+    );
+    return res.status(HttpCode.OK).json({
+      status: 'success',
+      code: HttpCode.OK,
+      data: { total, limit, offset, projects },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // GET by ID
 const getById = async (req, res, next) => {
   try {
-    const project = await ProjectController.getById(req.params.id);
-
+    const userId = req.user.id;
+    const project = await ProjectModel.getById(userId, req.params.id);
     // console.log('toObject()-->', project); // toObject() *
 
     if (project) {
@@ -33,8 +50,8 @@ const getById = async (req, res, next) => {
       code: HttpCode.NOT_FOUND,
       message: 'Project Not Found',
     });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -42,7 +59,7 @@ const getById = async (req, res, next) => {
 const create = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const project = await ProjectController.create({
+    const project = await ProjectModel.create({
       ...req.body,
       owner: userId,
     });
@@ -62,7 +79,7 @@ const create = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const project = await ProjectController.remove(userId, req.params.id);
+    const project = await ProjectModel.remove(userId, req.params.id);
 
     if (project) {
       return res
@@ -84,11 +101,7 @@ const remove = async (req, res, next) => {
 const update = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const project = await ProjectController.update(
-      userId,
-      req.params.id,
-      req.body,
-    );
+    const project = await ProjectModel.update(userId, req.params.id, req.body);
 
     if (project) {
       return res
@@ -106,8 +119,10 @@ const update = async (req, res, next) => {
   }
 };
 
-module.exports = { getAll, getById, create, remove, update };
+module.exports = { getAll, getFiltered, getById, create, remove, update };
 
 /**
  * Controllers
+ *
+ * - req.query (for mongoose pagination)
  */

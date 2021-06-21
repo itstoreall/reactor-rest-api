@@ -111,6 +111,7 @@ Mongoose ODM:
 /* ==============================================
 ** Installs:
 
+npm i mongoose-paginate-v2
 npm i bcryptjs
 npm i jsonwebtoken
 npm i passport-jwt

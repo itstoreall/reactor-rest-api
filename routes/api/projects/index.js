@@ -6,14 +6,16 @@ const guard = require('../../../helpers/guard');
 const {
   validateCreate,
   validateUpdate,
+  validateApi,
   validateUsed,
 } = require('./projectValidation');
 
 // GET
 router.get('/', ctrl.getAll);
+router.get('/filter', guard, ctrl.getFiltered);
 
 // GET by ID
-router.get('/:id', ctrl.getById);
+router.get('/:id', guard, ctrl.getById);
 
 // POST
 router.post('/', guard, validateCreate, ctrl.create);
@@ -25,6 +27,7 @@ router.delete('/:id', guard, ctrl.remove);
 router.put('/:id', guard, validateUpdate, ctrl.update);
 
 // PATCH
+router.patch('/:id/api', guard, validateApi, ctrl.update);
 router.patch('/:id/used', guard, validateUsed, ctrl.update);
 
 module.exports = router;

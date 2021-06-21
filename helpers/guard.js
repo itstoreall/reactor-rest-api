@@ -17,7 +17,10 @@ const guard = (req, res, next) => {
         message: 'Access is denied',
       });
     }
+
+    // User hashing
     req.user = user; // сохраняем юзера чтобы не запрашивать повторно
+    console.log(`Guard --> User ${req.user.name} was hashed`);
 
     return next();
   })(req, res, next);

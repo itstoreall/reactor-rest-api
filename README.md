@@ -1,9 +1,10 @@
 # Reactor REST-API
 
-v2.1.1
+v2.2.1
 
 _Use:_
 
+- mongoose-paginate-v2
 - bcryptjs
 - jsonwebtoken
 - passport-jwt

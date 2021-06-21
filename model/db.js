@@ -28,7 +28,7 @@ mongoose.connection.on('disconnected', () => {
 // Connection closure handler (Ctrl + C)
 process.on('SIGINT', async () => {
   mongoose.connection.close(() => {
-    console.log('Connection is closed.');
+    console.log('The connection is successfully closed.');
     process.exit();
   });
 });
