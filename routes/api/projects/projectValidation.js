@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { HttpCode } = require('../../../helpers/constants');
 
 const schemaCreate = Joi.object({
   name: Joi.string().min(2).required(),
@@ -41,7 +42,10 @@ const validate = async (schema, body, next) => {
     await schema.validateAsync(body);
     next();
   } catch (err) {
-    next({ status: 400, message: `Field: ${err.message.replace(/"/g, '')}` }); // next падает в app
+    next({
+      status: HttpCode.BAD_REQUEST,
+      message: `Field: ${err.message.replace(/"/g, '')}`,
+    }); // next падает в app
   }
 };
 

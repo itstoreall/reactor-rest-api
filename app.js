@@ -1,8 +1,10 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const { HttpCode } = require('./helpers/constants');
 
-const projectsRouter = require('./routes/api/projects');
+const userRouter = require('./routes/api/users');
+const projectRouter = require('./routes/api/projects');
 
 const app = express();
 
@@ -12,16 +14,19 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/projects', projectsRouter);
+app.use('/api/users', userRouter);
+app.use('/api/projects', projectRouter);
 
 // If right url is not found
 app.use((req, res) => {
-  res.status(404).json({ status: 'error', code: 404, message: 'Not found' });
+  res
+    .status(HttpCode.NOT_FOUND)
+    .json({ status: 'error', code: HttpCode.NOT_FOUND, message: 'Not found' });
 });
 
 // Приходит из Function Validation
 app.use((err, req, res, next) => {
-  const code = err.status || 500;
+  const code = err.status || HttpCode.NOT_FOUND;
   const status = err.status ? 'error' : 'fail';
   res.status(code).json({ status, code, message: err.message });
 });
