@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
+const gravatar = require('gravatar');
 const {
   Gender: { MALE, FEMALE, NONE },
 } = require('../../helpers/constants');
@@ -42,6 +43,12 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    avatar: {
+      type: String,
+      default: function () {
+        return gravatar.url(this.email, { s: 250 }, true);
+      },
+    },
   },
   {
     versionKey: false,
@@ -72,4 +79,7 @@ module.exports = UserModel;
  * - userSchema.pre('') (сделать перед... - первый парам. - метод)
  * - userSchema.methods.validPassword (свойство methods хранит статические свойства юзерСхемы)
  * можно добавлять любые методы (например на экземпляр нашей модели (user) мы добавляем фунцию validPassword)
+ *
+ * - Gravatar
+ * - gravatar.url(this.email, {s: 250}, true) - s - размер (px), (false - http, true - https)
  */

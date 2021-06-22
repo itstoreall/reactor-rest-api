@@ -54,6 +54,9 @@ const projectSchema = new Schema(
       type: SchemaTypes.ObjectId, // id from Mongoose
       ref: 'user', // link to user collection
     },
+    image: {
+      type: String,
+    },
   },
   {
     versionKey: false,

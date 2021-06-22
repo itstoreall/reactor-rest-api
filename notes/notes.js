@@ -1,6 +1,8 @@
 /* ==============================================
 ** Notes:
 
+- multer арспарсивает formdata
+- gravatar устанавливает аву из Gravatar привязянную к email
 - express-rate-limit (защита от DDOS атак)
 - helmet (защита от взлома)
 - bcryptjs (шифрует пароль)
@@ -113,6 +115,8 @@ Mongoose ODM:
 /* ==============================================
 ** Installs:
 
+npm i --save multer
+npm i gravatar
 npm i --save express-rate-limit
 npm i helmet
 npm i express-query-boolean

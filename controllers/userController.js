@@ -17,7 +17,8 @@ const register = async (req, res, next) => {
       });
     }
     const newUser = await UserModel.create(req.body);
-    const { id, name, email, gender } = newUser;
+    const { id, name, email, gender, avatar } = newUser;
+
     return res.status(HttpCode.CREATED).json({
       status: 'success',
       code: HttpCode.CREATED,
@@ -26,6 +27,7 @@ const register = async (req, res, next) => {
         name,
         email,
         gender,
+        avatar,
       },
     });
   } catch (e) {
