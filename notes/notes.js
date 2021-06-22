@@ -1,6 +1,8 @@
 /* ==============================================
 ** Notes:
 
+- express-rate-limit (защита от DDOS атак)
+- helmet (защита от взлома)
 - bcryptjs (шифрует пароль)
 - jsonwebtoken (создает jwt-токены)
 - passport-jwt - валедирует jwt-токены, проводит аутентификацию
@@ -111,6 +113,10 @@ Mongoose ODM:
 /* ==============================================
 ** Installs:
 
+npm i --save express-rate-limit
+npm i helmet
+npm i express-query-boolean
+npm i mongoose-paginate-v2
 npm i bcryptjs
 npm i jsonwebtoken
 npm i passport-jwt

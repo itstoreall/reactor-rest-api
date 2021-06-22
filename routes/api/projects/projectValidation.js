@@ -11,6 +11,7 @@ const schemaCreate = Joi.object({
     .max(100)
     .required(),
   requires: [Joi.string().alphanum().min(5).max(30), ''],
+  restApi: Joi.boolean().required(),
   used: Joi.array().required(),
   page: [Joi.string(), ''],
   source: Joi.string().required(),
@@ -25,6 +26,7 @@ const schemaUpdate = Joi.object({
     .regex(/^[A-Z][A-Za-z0-9\s,.=-]+$/)
     .min(2)
     .max(100),
+  restApi: Joi.boolean().required(),
   requires: [Joi.string().alphanum().min(5).max(30), ''],
   used: Joi.array(),
   page: [Joi.string(), ''],
@@ -36,6 +38,10 @@ const schemaUsed = Joi.object({
   used: Joi.array().required(),
 });
 
+const schemaApi = Joi.object({
+  restApi: Joi.boolean().required(),
+});
+
 // Function Validation
 const validate = async (schema, body, next) => {
   try {
@@ -44,7 +50,7 @@ const validate = async (schema, body, next) => {
   } catch (err) {
     next({
       status: HttpCode.BAD_REQUEST,
-      message: `Field: ${err.message.replace(/"/g, '')}`,
+      message: `Validation Error --> Field: ${err.message.replace(/"/g, '')}`,
     }); // next падает в app
   }
 };
@@ -60,6 +66,10 @@ module.exports.validateUpdate = (req, _res, next) => {
 
 module.exports.validateUsed = (req, _res, next) => {
   return validate(schemaUsed, req.body, next);
+};
+
+module.exports.validateApi = (req, _res, next) => {
+  return validate(schemaApi, req.body, next);
 };
 
 /**

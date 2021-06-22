@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema, SchemaTypes } = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 // Schema
 const projectSchema = new Schema(
@@ -21,6 +22,10 @@ const projectSchema = new Schema(
       type: String,
       required: true,
       max: 100,
+    },
+    restApi: {
+      type: Boolean,
+      default: false,
     },
     requires: {
       type: String,
@@ -79,7 +84,7 @@ const projectSchema = new Schema(
       virtuals: true,
       transform: function (doc, ret) {
         delete ret._id; // Hide the field
-        delete ret.isView; // Hide the virtual field
+        delete ret.server; // Hide the virtual field
         return ret;
       },
     },
@@ -87,16 +92,18 @@ const projectSchema = new Schema(
 );
 
 // Virtual field
-projectSchema.virtual('isView').get(function () {
+projectSchema.virtual('server').get(function () {
   return `Project ${this.title} requires a Server`;
 });
 
 // Checking
 projectSchema.path('description').validate(value => {
-  // const regul = /^[a-zA-Z0-9\s.,]+/g;
   const regul = /^[A-Z][A-Za-z0-9\s,.=-]+$/;
   return regul.test(String(value));
 });
+
+// Paginate (connection)
+projectSchema.plugin(mongoosePaginate);
 
 // Model (is a Class)
 const ProjectModel = mongoose.model('project', projectSchema);
