@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const limiter = require('../../../helpers/limiter');
 const ctrl = require('../../../controllers/projectController');
 const guard = require('../../../helpers/guard');
 
@@ -12,7 +13,8 @@ const {
 
 // GET
 router.get('/', ctrl.getAll);
-router.get('/filter', guard, ctrl.getFiltered);
+
+router.get('/filter', guard, limiter, ctrl.getFiltered);
 
 // GET by ID
 router.get('/:id', guard, ctrl.getById);

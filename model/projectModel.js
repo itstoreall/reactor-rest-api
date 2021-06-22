@@ -8,19 +8,17 @@ const getAll = async query => {
 
 // Get filtered
 const getFiltered = async (userId, query) => {
-  console.log('getFiltered userId: --> ', userId);
-  console.log('getFiltered query: --> ', query);
-
   // Mongoose pagination
   const {
+    page = 0,
     limit = 5,
-    offset = 0,
+    // offset = 0,
     sortBy,
     sortByDesk,
     filter, // &filter=name|title|restApi
     restApi = null,
   } = query;
-  console.log('restApi-->', Boolean(restApi));
+
   const optionSearch = { owner: userId };
 
   if (restApi !== null) {
@@ -28,8 +26,9 @@ const getFiltered = async (userId, query) => {
   }
 
   const results = await ProjectSchema.paginate(optionSearch, {
+    page,
     limit,
-    offset,
+    // offset,
     select: filter ? filter.split('|').join(' ') : '', // --> name title restApi
     sort: {
       ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
@@ -39,13 +38,8 @@ const getFiltered = async (userId, query) => {
 
   // Converts the answer from paginate
   const { docs: projects, totalDocs: total } = results;
-  console.log(total);
-  // const results = await ProjectSchema.findOne({ owner: userId }).populate({
-  //   path: 'owner',
-  //   select: 'name email gender -_id',
-  // });
 
-  return { projects, total, limit, offset };
+  return { projects, total, page, limit };
 };
 
 // Get by ID
@@ -109,4 +103,10 @@ module.exports = {
  * - sort: { ...(sortBy ? {[`${sortBy}`] : 1} : {}) } (если пришло какае-то поле - [}: - указываем имя
  * этого поля и 1 единичка - сортировать по нему. Оборачиваем в объект (для тернарника) и если не пришло
  * то - : {} - возвращаем пустой объект. То же и для sortByDesk только -1 - в другую сторону сорт.)
+ *
+ *
+ * - query-string:
+ * - http://localhost:3000/api/projects/filtered?limit=2&offset=0&filter=name|title|restApi&sortBy=name
+ * or
+ * - http://localhost:3000/api/projects/filter?page=0&limit=2&filter=name|title|restApi&sortBy=name
  */
