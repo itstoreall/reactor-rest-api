@@ -1,17 +1,20 @@
 const app = require('../app');
 const db = require('../model/db');
 const createFolderIsNotExist = require('../helpers/create-dir');
+const {
+  uploadConfig: { UPLOAD_DIR, AVATARS_OF_USERS, IMAGES_FOR_PROJECTS },
+} = require('../config/configApp.json');
 
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
-const UPLOAD_DIR = process.env.UPLOAD_DIR;
-const AVATARS_OF_USERS = process.env.AVATARS_OF_USERS;
 
+// Creates folder if it doesn't exist
 db.then(() => {
   app.listen(PORT, async () => {
-    createFolderIsNotExist(UPLOAD_DIR);
-    createFolderIsNotExist(AVATARS_OF_USERS);
+    createFolderIsNotExist(UPLOAD_DIR); // temp
+    createFolderIsNotExist(AVATARS_OF_USERS); // public/avatars
+    createFolderIsNotExist(IMAGES_FOR_PROJECTS); // public/images
 
     console.log(`Server is running. Port: ${PORT}`);
   });

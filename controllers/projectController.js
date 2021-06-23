@@ -1,5 +1,10 @@
+require('dotenv').config();
 const ProjectModel = require('../model/projectModel');
 const { HttpCode } = require('../helpers/constants');
+const UploadImage = require('../services/uploadImagesLocal');
+const {
+  uploadConfig: { IMAGES_FOR_PROJECTS },
+} = require('../config/configApp.json');
 
 // GET
 const getAll = async (req, res, next) => {
@@ -122,13 +127,50 @@ const update = async (req, res, next) => {
 // IMAGES
 const images = async (req, res, next) => {
   try {
-    return res.json({});
+    const id = req.user.id;
+    const uploads = new UploadImage(IMAGES_FOR_PROJECTS);
+
+    // Save images to static (creates a personal folder)
+    const imageUrl = await uploads.saveImageToStatic({
+      idUser: id,
+      pathFile: req.file.path,
+      name: req.filename,
+      // oldFile: req.user,
+    });
+
+    /*
+    console.log('img req.url-->', req.url); // /images
+    console.log('img req.method-->', req.method); // PATCH
+    console.log('img req.baseUrl-->', req.baseUrl); // /api/projects
+    console.log('img req.originalUrl-->', req.originalUrl); // /api/projects/images
+    console.log('img req.params-->', req.params); // {}
+    console.log('img req.user-->', req.user); // everything about the user
+    console.log('uploads-->', uploads); // UploadImages { IMAGES_FOR_PROJECTS: 'public/images' }
+    */
+    console.log('img req.file-->', req.file); // everything about the file
+    console.log('imageUrl--> ', imageUrl);
+
+    // await ProjectModel.updateAvatar(id, imageUrl);
+
+    return res.json({
+      status: 'success',
+      code: HttpCode.OK,
+      data: { imageUrl },
+    });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports = { getAll, getFiltered, getById, create, remove, update, images };
+module.exports = {
+  getAll,
+  getFiltered,
+  getById,
+  create,
+  remove,
+  update,
+  images,
+};
 
 /**
  * Controllers
