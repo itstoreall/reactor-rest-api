@@ -3,6 +3,7 @@ const multer = require('multer');
 require('dotenv').config();
 const UPLOAD_DIR = process.env.UPLOAD_DIR;
 
+// Creates Storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, UPLOAD_DIR);
@@ -12,7 +13,7 @@ const storage = multer.diskStorage({
   },
 });
 
-// File checking
+// File checking (pattern (the func which creates objects, and hides realisation))
 const upload = multer({
   storage: storage,
   limits: { fileSize: 100000 }, // Размер в байтах (100кб)

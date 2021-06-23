@@ -119,7 +119,16 @@ const update = async (req, res, next) => {
   }
 };
 
-module.exports = { getAll, getFiltered, getById, create, remove, update };
+// IMAGES
+const images = async (req, res, next) => {
+  try {
+    return res.json({});
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getAll, getFiltered, getById, create, remove, update, images };
 
 /**
  * Controllers

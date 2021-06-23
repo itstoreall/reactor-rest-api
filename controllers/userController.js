@@ -68,15 +68,26 @@ const login = async (req, res, next) => {
   }
 };
 
+// LOGOUT
 const logout = async (req, res, next) => {
   await UserModel.updateToken(req.user.id, null);
   return res.status(HttpCode.NO_CONTENT).json({});
+};
+
+// AVATARS
+const avatars = async (req, res, next) => {
+  try {
+    return res.json({});
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {
   register,
   login,
   logout,
+  avatars,
 };
 
 /**

@@ -1,7 +1,7 @@
 /* ==============================================
 ** Notes:
 
-- multer арспарсивает formdata
+- multer распарсивает formdata
 - gravatar устанавливает аву из Gravatar привязянную к email
 - express-rate-limit (защита от DDOS атак)
 - helmet (защита от взлома)
