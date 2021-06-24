@@ -1,6 +1,7 @@
 /* ==============================================
 ** Notes:
 
+- jimp (image redactor)
 - multer распарсивает formdata
 - gravatar устанавливает аву из Gravatar привязянную к email
 - express-rate-limit (защита от DDOS атак)
@@ -115,6 +116,7 @@ Mongoose ODM:
 /* ==============================================
 ** Installs:
 
+npm i jimp
 npm i --save multer
 npm i gravatar
 npm i --save express-rate-limit

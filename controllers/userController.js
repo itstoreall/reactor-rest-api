@@ -88,13 +88,13 @@ const avatars = async (req, res, next) => {
     const avatarUrl = await uploads.saveAvatarToStatic({
       idUser: id,
       pathFile: req.file.path,
-      name: req.filename,
+      fileName: req.file.filename,
       oldFile: req.user.avatar,
     });
 
-    console.log('avatarUrl--> ', avatarUrl);
-
     await UserModel.updateAvatar(id, avatarUrl);
+
+    console.log('req.hostname-->', req.hostname); // localhost
 
     return res.json({
       status: 'success',

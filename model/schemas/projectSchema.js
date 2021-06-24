@@ -56,6 +56,7 @@ const projectSchema = new Schema(
     },
     image: {
       type: String,
+      default: '',
     },
   },
   {
@@ -93,6 +94,8 @@ const projectSchema = new Schema(
     },
   },
 );
+
+console.log('projectSchema --> Detected!'); // *
 
 // Virtual field
 projectSchema.virtual('server').get(function () {

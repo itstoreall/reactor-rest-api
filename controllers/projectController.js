@@ -134,21 +134,20 @@ const images = async (req, res, next) => {
     const imageUrl = await uploads.saveImageToStatic({
       idUser: id,
       pathFile: req.file.path,
-      name: req.filename,
-      // oldFile: req.user,
+      fileName: req.file.filename,
     });
 
     /*
-    console.log('img req.url-->', req.url); // /images
-    console.log('img req.method-->', req.method); // PATCH
-    console.log('img req.baseUrl-->', req.baseUrl); // /api/projects
-    console.log('img req.originalUrl-->', req.originalUrl); // /api/projects/images
-    console.log('img req.params-->', req.params); // {}
-    console.log('img req.user-->', req.user); // everything about the user
+    console.log('ctrl proj: img req.url-->', req.url); // /images
+    console.log('ctrl proj: img req.method-->', req.method); // PATCH
+    console.log('ctrl proj: img req.baseUrl-->', req.baseUrl); // /api/projects
+    console.log('ctrl proj: img req.originalUrl-->', req.originalUrl); // /api/projects/images
+    console.log('ctrl proj: img req.params-->', req.params); // {}
     console.log('uploads-->', uploads); // UploadImages { IMAGES_FOR_PROJECTS: 'public/images' }
+    console.log('ctrl proj: img req.file-->', req.file); // everything about the file
     */
-    console.log('img req.file-->', req.file); // everything about the file
-    console.log('imageUrl--> ', imageUrl);
+    // console.log('ctrl req.user.avatar: img req.user.image-->', req.user.image); // everything about the user
+    // console.log('imageUrl--> ', imageUrl);
 
     // await ProjectModel.updateAvatar(id, imageUrl);
 

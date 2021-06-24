@@ -55,6 +55,7 @@ const userSchema = new Schema(
     timestamps: true,
   },
 );
+console.log('userSchema --> Detected!'); // *
 
 // Password encryption (if it has changed or created)
 userSchema.pre('save', async function (next) {

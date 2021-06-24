@@ -4,6 +4,7 @@ v2.4.1
 
 _Use:_
 
+- jimp
 - multer
 - gravatar
 - express-rate-limit

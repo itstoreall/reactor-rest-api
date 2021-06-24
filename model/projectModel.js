@@ -79,9 +79,10 @@ const update = async (userId, id, body) => {
   return result;
 };
 
+// Update Image
 const updateImage = async (id, image) => {
-  console.log('model updateImage done!', id, image);
-  // return await UserSchema.updateOne({ _id: id }, { image });
+  console.log('--> in model updateImage:', id, image);
+  return await ProjectSchema.updateOne({ _id: id }, { image });
 };
 
 module.exports = {
