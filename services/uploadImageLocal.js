@@ -19,29 +19,29 @@ class UploadImages {
     await fs.rename(pathFile, path.join(folderImage, fileName));
 
     // Deletes an old avatar if it already exist
-    const oldFile = `${idUser}/${fileName}`;
+    // const oldFile = `${idUser}/${fileName}`;
 
-    await this.deleteOldImage(
-      path.join(process.cwd(), this.IMAGES_FOR_PROJECTS, oldFile),
-    );
+    // await this.deleteOldImage(
+    //   path.join(process.cwd(), this.IMAGES_FOR_PROJECTS, oldFile),
+    // );
 
     // Creates url where the file will stored
     const imageUrl = path.normalize(path.join(idUser, fileName));
 
-    console.log('oldFile-->', oldFile);
+    // console.log('oldFile-->', oldFile);
     console.log('imageUrl-->', imageUrl);
 
     return imageUrl;
   }
 
   // Delete old Avatar
-  async deleteOldImage(pathFile) {
-    try {
-      await fs.unlink(pathFile);
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
+  // async deleteOldImage(pathFile) {
+  //   try {
+  //     await fs.unlink(pathFile);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // }
 }
 
 module.exports = UploadImages;

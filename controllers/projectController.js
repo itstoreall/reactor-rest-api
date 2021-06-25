@@ -1,7 +1,7 @@
 require('dotenv').config();
 const ProjectModel = require('../model/projectModel');
 const { HttpCode } = require('../helpers/constants');
-const UploadImage = require('../services/uploadImagesLocal');
+const UploadImage = require('../services/uploadImageLocal');
 const {
   uploadConfig: { IMAGES_FOR_PROJECTS },
 } = require('../config/configApp.json');

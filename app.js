@@ -17,7 +17,7 @@ const app = express();
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(helmet()); // Protection against hacking (hides headers)
-// app.use(express.static(path.join(__dirname, AVATARS_OF_USERS))); // раздача статики
+app.use(express.static(path.join(__dirname, AVATARS_OF_USERS))); // раздача статики
 app.use(express.static(path.join(__dirname, IMAGES_FOR_PROJECTS))); // раздача статики
 // app.use(limiter); // Protection against DDOS *
 app.use(logger(formatsLogger));

@@ -4,6 +4,7 @@ v2.4.1
 
 _Use:_
 
+- cloudinary
 - jimp
 - multer
 - gravatar

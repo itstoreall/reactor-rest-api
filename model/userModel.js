@@ -21,9 +21,9 @@ const updateToken = async (id, token) => {
   return await UserSchema.updateOne({ _id: id }, { token });
 };
 
-// Update Avatar
-const updateAvatar = async (id, avatar) => {
-  return await UserSchema.updateOne({ _id: id }, { avatar });
+// Update Avatar (Cloud)
+const updateAvatarCloud = async (id, avatar, userIdImg = null) => {
+  return await UserSchema.updateOne({ _id: id }, { avatar, userIdImg });
 };
 
 module.exports = {
@@ -31,9 +31,17 @@ module.exports = {
   findByEmail,
   create,
   updateToken,
-  updateAvatar,
+  updateAvatarCloud,
+  // updateAvatar,
 };
 
 /**
  * userModel - Repository
  */
+
+// =========== Upload Avatar Local ===========
+
+// Update Avatar
+// const updateAvatar = async (id, avatar) => {
+//   return await UserSchema.updateOne({ _id: id }, { avatar });
+// };

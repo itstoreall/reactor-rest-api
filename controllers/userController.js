@@ -1,12 +1,19 @@
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
+const { promisify } = require('util');
 require('dotenv').config();
 const UserModel = require('../model/userModel');
 const { HttpCode } = require('../helpers/constants');
-const UploadAvatar = require('../services/uploadAvatarsLocal');
+// const UploadAvatar = require('../services/uploadAvatarLocal'); // for Local *
+const UploadAvatar = require('../services/uploadAvatarCloud');
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
-const {
-  uploadConfig: { AVATARS_OF_USERS },
-} = require('../config/configApp.json');
+
+// Cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 // REGISTER
 const register = async (req, res, next) => {
@@ -78,28 +85,23 @@ const logout = async (req, res, next) => {
   return res.status(HttpCode.NO_CONTENT).json({});
 };
 
-// AVATARS
-const avatars = async (req, res, next) => {
+// AVATARS (Cloud)
+const cloudAvatars = async (req, res, next) => {
   try {
     const id = req.user.id;
-    const uploads = new UploadAvatar(AVATARS_OF_USERS);
+    const uploadCloud = promisify(cloudinary.uploader.upload);
+    const uploads = new UploadAvatar(uploadCloud);
 
-    // Save avatar to static (creates a personal folder)
-    const avatarUrl = await uploads.saveAvatarToStatic({
-      idUser: id,
-      pathFile: req.file.path,
-      fileName: req.file.filename,
-      oldFile: req.user.avatar,
-    });
-
-    await UserModel.updateAvatar(id, avatarUrl);
-
-    console.log('req.hostname-->', req.hostname); // localhost
+    const { userIdImg, avatarURL } = await uploads.saveAvatarToCloud(
+      req.file.path,
+      req.user.userIdImg,
+    );
+    await UserModel.updateAvatarCloud(id, avatarURL, userIdImg);
 
     return res.json({
       status: 'success',
       code: HttpCode.OK,
-      data: { avatarUrl },
+      data: { avatarURL },
     });
   } catch (err) {
     next(err);
@@ -110,7 +112,8 @@ module.exports = {
   register,
   login,
   logout,
-  avatars,
+  cloudAvatars,
+  // avatars,
 };
 
 /**
@@ -120,4 +123,44 @@ module.exports = {
  * - expiresIn (token lifetime: 1m - 1 minute, 1d - 1 day, 1w - 1 week, 1h - 1 hour)
  *
  * - В Logout обязательно возвращать пустой объект
+ *
+ * - util - специальный пакет ноды
+ *
+ * - cloudAvatars:
+ * - uploads.saveAvatarToCloud( publicId) - два параметра: где лежит файл и publicId
+ * назад получаем publicId и avatarUrl от нашего сервиса
  */
+
+// =========== Upload Avatar Local ===========
+
+// const {
+//   uploadConfig: { AVATARS_OF_USERS },
+// } = require('../config/configApp.json');
+
+// AVATARS (Local)
+// const avatars = async (req, res, next) => {
+//   try {
+//     const id = req.user.id;
+//     const uploads = new UploadAvatar(AVATARS_OF_USERS);
+
+//     // Save avatar to static (creates a personal folder)
+//     const avatarUrl = await uploads.saveAvatarToStatic({
+//       idUser: id,
+//       pathFile: req.file.path,
+//       fileName: req.file.filename,
+//       oldFile: req.user.avatar,
+//     });
+
+//     await UserModel.updateAvatar(id, avatarUrl);
+
+//     console.log('req.hostname-->', req.hostname); // localhost
+
+//     return res.json({
+//       status: 'success',
+//       code: HttpCode.OK,
+//       data: { avatarUrl },
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };

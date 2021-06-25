@@ -86,6 +86,9 @@ git merge main (находясь в своей локальной ветке п�
 /* ==============================================
 ** Commands (code):
 
+ctrl + alt + L - Turbo Console Log
+shift + cmnd + L - выделить все идентичные переменные
+
 MongoDB:
 db.<collection>.find() (Список документов в коллекции)
 db.<collection>.find({gender: «f»}) (Список документов с уловиями)
@@ -116,6 +119,7 @@ Mongoose ODM:
 /* ==============================================
 ** Installs:
 
+npm i cloudinary
 npm i jimp
 npm i --save multer
 npm i gravatar
