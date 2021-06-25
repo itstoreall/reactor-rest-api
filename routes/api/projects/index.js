@@ -3,6 +3,7 @@ const router = express.Router();
 const limiter = require('../../../helpers/limiter');
 const ctrl = require('../../../controllers/projectController');
 const guard = require('../../../helpers/guard');
+const upload = require('../../../helpers/upload');
 
 const {
   validateCreate,
@@ -31,6 +32,9 @@ router.put('/:id', guard, validateUpdate, ctrl.update);
 // PATCH
 router.patch('/:id/api', guard, validateApi, ctrl.update);
 router.patch('/:id/used', guard, validateUsed, ctrl.update);
+
+// IMAGES
+router.patch('/images', [guard, upload.single('image')], ctrl.images);
 
 module.exports = router;
 

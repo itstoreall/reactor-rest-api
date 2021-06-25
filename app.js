@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
+const path = require('path');
 const cors = require('cors');
 const boolParser = require('express-query-boolean');
 const helmet = require('helmet');
@@ -7,12 +8,17 @@ const helmet = require('helmet');
 const { HttpCode } = require('./helpers/constants');
 const userRouter = require('./routes/api/users');
 const projectRouter = require('./routes/api/projects');
+const {
+  uploadConfig: { AVATARS_OF_USERS, IMAGES_FOR_PROJECTS },
+} = require('./config/configApp.json');
 
 const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(helmet()); // Protection against hacking (hides headers)
+app.use(express.static(path.join(__dirname, AVATARS_OF_USERS))); // раздача статики
+app.use(express.static(path.join(__dirname, IMAGES_FOR_PROJECTS))); // раздача статики
 // app.use(limiter); // Protection against DDOS *
 app.use(logger(formatsLogger));
 app.use(cors());
@@ -51,4 +57,6 @@ module.exports = app;
  *
  * limit: 15000 in JSON:
  * app.use(express.json({ limit: 15000 })) - ограничение json в kb
+ *
+ * express.static - все что попадает в папку avatars становится статикой
  */

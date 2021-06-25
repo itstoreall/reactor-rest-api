@@ -79,6 +79,12 @@ const update = async (userId, id, body) => {
   return result;
 };
 
+// Update Image
+const updateImage = async (id, image) => {
+  console.log('--> in model updateImage:', id, image);
+  return await ProjectSchema.updateOne({ _id: id }, { image });
+};
+
 module.exports = {
   getAll,
   getFiltered,
@@ -86,9 +92,12 @@ module.exports = {
   remove,
   create,
   update,
+  updateImage,
 };
 
 /**
+ * projectModel - Repository
+ *
  * Сущность проекта (Mongoose)
  * - new: true (возвращать новые данные (по умолчанию возвр. предидущие))
  * - mongoose pagination:

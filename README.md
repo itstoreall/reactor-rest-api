@@ -1,9 +1,13 @@
 # Reactor REST-API
 
-v2.3.1
+v2.4.1
 
 _Use:_
 
+- cloudinary
+- jimp
+- multer
+- gravatar
 - express-rate-limit
 - helmet
 - express-query-boolean

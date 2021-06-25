@@ -1,0 +1,7 @@
+{
+  "uploadConfig": {
+    "UPLOAD_DIR": "temp",
+    "AVATARS_OF_USERS": "public/avatars",
+    "IMAGES_FOR_PROJECTS": "public/images"
+  }
+}

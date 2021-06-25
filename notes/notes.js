@@ -1,6 +1,9 @@
 /* ==============================================
 ** Notes:
 
+- jimp (image redactor)
+- multer распарсивает formdata
+- gravatar устанавливает аву из Gravatar привязянную к email
 - express-rate-limit (защита от DDOS атак)
 - helmet (защита от взлома)
 - bcryptjs (шифрует пароль)
@@ -83,6 +86,9 @@ git merge main (находясь в своей локальной ветке п�
 /* ==============================================
 ** Commands (code):
 
+ctrl + alt + L - Turbo Console Log
+shift + cmnd + L - выделить все идентичные переменные
+
 MongoDB:
 db.<collection>.find() (Список документов в коллекции)
 db.<collection>.find({gender: «f»}) (Список документов с уловиями)
@@ -113,6 +119,10 @@ Mongoose ODM:
 /* ==============================================
 ** Installs:
 
+npm i cloudinary
+npm i jimp
+npm i --save multer
+npm i gravatar
 npm i --save express-rate-limit
 npm i helmet
 npm i express-query-boolean

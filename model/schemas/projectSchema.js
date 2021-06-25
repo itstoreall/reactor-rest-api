@@ -54,6 +54,10 @@ const projectSchema = new Schema(
       type: SchemaTypes.ObjectId, // id from Mongoose
       ref: 'user', // link to user collection
     },
+    image: {
+      type: String,
+      default: '',
+    },
   },
   {
     versionKey: false,
@@ -90,6 +94,8 @@ const projectSchema = new Schema(
     },
   },
 );
+
+console.log('projectSchema --> Detected!'); // *
 
 // Virtual field
 projectSchema.virtual('server').get(function () {
