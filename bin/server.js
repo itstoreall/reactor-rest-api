@@ -7,7 +7,7 @@ const {
 
 require('dotenv').config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5288;
 
 // Creates folder if it doesn't exist
 db.then(() => {
