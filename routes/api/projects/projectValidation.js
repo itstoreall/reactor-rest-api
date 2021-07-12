@@ -6,7 +6,7 @@ const schemaCreate = Joi.object({
   alt: Joi.string().required(),
   title: Joi.string().min(2).max(25).required(),
   description: Joi.string()
-    .regex(/^[A-Z][A-Za-z0-9\s,.=-]+$/)
+    .regex(/^[A-Z][A-Za-z0-9\s,.:'()=-]+$/)
     .min(2)
     .max(100)
     .required(),

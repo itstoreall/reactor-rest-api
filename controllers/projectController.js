@@ -6,6 +6,8 @@ const {
   uploadConfig: { IMAGES_FOR_PROJECTS },
 } = require('../config/configApp.json');
 
+const { log } = console;
+
 // GET
 const getAll = async (req, res, next) => {
   try {
@@ -62,6 +64,8 @@ const getById = async (req, res, next) => {
 
 // CREATE
 const create = async (req, res, next) => {
+  log('req.user.id-->', req.user.id);
+
   try {
     const userId = req.user.id;
     const project = await ProjectModel.create({
