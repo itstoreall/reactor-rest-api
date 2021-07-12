@@ -104,8 +104,9 @@ projectSchema.virtual('server').get(function () {
 
 // Checking
 projectSchema.path('description').validate(value => {
-  const regul = /^[A-Z][A-Za-z0-9\s,.=-]+$/;
+  const regul = /^[A-Za-z0-9\s,.'!():=-]+$/;
   return regul.test(String(value));
+  // return String(value); // * Disable
 });
 
 // Paginate (connection)

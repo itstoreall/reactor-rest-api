@@ -64,13 +64,13 @@ const getById = async (req, res, next) => {
 
 // CREATE
 const create = async (req, res, next) => {
-  log('req.user.id-->', req.user.id);
+  log('req.user.id-->', req.user.id); // * guard
 
   try {
-    const userId = req.user.id;
+    const userId = req.user.id; // * guard
     const project = await ProjectModel.create({
       ...req.body,
-      owner: userId,
+      owner: userId, // * guard
     });
 
     return res

@@ -21,7 +21,6 @@ router.get('/filter', guard, limiter, ctrl.getFiltered);
 router.get('/:id', guard, ctrl.getById);
 
 // POST
-// router.post('/', guard, validateCreate, ctrl.create);
 router.post('/', guard, validateCreate, ctrl.create);
 
 // DELETE

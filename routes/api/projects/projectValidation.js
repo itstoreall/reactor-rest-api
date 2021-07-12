@@ -6,11 +6,12 @@ const schemaCreate = Joi.object({
   alt: Joi.string().required(),
   title: Joi.string().min(2).max(25).required(),
   description: Joi.string()
-    .regex(/^[A-Z][A-Za-z0-9\s/,/./:/'/(/)/=/-]+$/)
+    // .regex(/[^А-ЯЁа-яё]*/)
+    .regex(/^[A-Za-z0-9\s,.'!():=-]+$/)
     .min(2)
     .max(100)
     .required(),
-  requires: [Joi.string().alphanum().min(5).max(30), ''],
+  requires: [Joi.string().min(5).max(30), ''],
   restApi: Joi.boolean().required(),
   used: Joi.array().required(),
   page: [Joi.string(), ''],
@@ -23,7 +24,7 @@ const schemaUpdate = Joi.object({
   alt: Joi.string(),
   title: Joi.string().min(2).max(25),
   description: Joi.string()
-    .regex(/^[A-Z][A-Za-z0-9\s,.:'()=-]+$/)
+    .regex(/^[A-Za-z0-9\s,.'!():=-]+$/)
     .min(2)
     .max(100),
   restApi: Joi.boolean().required(),
