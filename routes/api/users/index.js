@@ -6,6 +6,7 @@ const upload = require('../../../helpers/upload');
 
 router.post('/register', ctrl.register);
 router.post('/login', ctrl.login); // returns response with jwt-token
+// router.post('/logout', ctrl.logout);
 router.post('/logout', guard, ctrl.logout);
 router.patch('/avatars', [guard, upload.single('avatar')], ctrl.cloudAvatars);
 

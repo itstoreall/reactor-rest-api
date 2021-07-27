@@ -72,6 +72,13 @@ const login = async (req, res, next) => {
       code: HttpCode.OK,
       data: {
         token,
+        user: {
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+          id: user.id,
+          gender: user.gender,
+        },
       },
     });
   } catch (e) {
@@ -81,6 +88,11 @@ const login = async (req, res, next) => {
 
 // LOGOUT
 const logout = async (req, res, next) => {
+  // console.log(req.user.id);
+  // console.log(req.body.user.id);
+  console.log(111);
+  // return req.user;
+
   await UserModel.updateToken(req.user.id, null);
   return res.status(HttpCode.NO_CONTENT).json({});
 };
@@ -162,5 +174,40 @@ module.exports = {
 //     });
 //   } catch (err) {
 //     next(err);
+//   }
+// };
+
+// Delete later --------v
+
+// // LOGIN
+// const login = async (req, res, next) => {
+//   try {
+//     const { email, password } = req.body;
+//     const user = await UserModel.findByEmail(email);
+//     const isValidPassword = await user?.validPassword(password);
+
+//     if (!user || !isValidPassword) {
+//       return res.status(HttpCode.UNAUTHORIZED).json({
+//         status: 'error',
+//         code: HttpCode.UNAUTHORIZED,
+//         message: 'Invalid credentials',
+//       });
+//     }
+
+//     const payload = { id: user.id };
+//     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1d' });
+
+//     // Writes the token into the database
+//     await UserModel.updateToken(user.id, token);
+
+//     return res.status(HttpCode.OK).json({
+//       status: 'success',
+//       code: HttpCode.OK,
+//       data: {
+//         token,
+//       },
+//     });
+//   } catch (e) {
+//     next(e);
 //   }
 // };
