@@ -88,11 +88,6 @@ const login = async (req, res, next) => {
 
 // LOGOUT
 const logout = async (req, res, next) => {
-  // console.log(req.user.id);
-  // console.log(req.body.user.id);
-  console.log(111);
-  // return req.user;
-
   await UserModel.updateToken(req.user.id, null);
   return res.status(HttpCode.NO_CONTENT).json({});
 };
