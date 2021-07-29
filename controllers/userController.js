@@ -62,7 +62,7 @@ const login = async (req, res, next) => {
     }
 
     const payload = { id: user.id };
-    const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1d' });
+    const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1w' });
 
     // Writes the token into the database
     await UserModel.updateToken(user.id, token);
@@ -115,11 +115,27 @@ const cloudAvatars = async (req, res, next) => {
   }
 };
 
+// GET Current user
+const current = async (req, res, next) => {
+  try {
+    const { email, name, avatar } = await UserModel.findByToken(req.user.token);
+
+    return res.status(HttpCode.OK).json({
+      status: 'success',
+      code: HttpCode.OK,
+      data: { email, name, avatar },
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   register,
   login,
   logout,
   cloudAvatars,
+  current,
   // avatars,
 };
 

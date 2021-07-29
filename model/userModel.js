@@ -10,6 +10,11 @@ const findByEmail = async email => {
   return await UserSchema.findOne({ email });
 };
 
+// Find User by Token
+const findByToken = async token => {
+  return await UserSchema.findOne({ token });
+};
+
 // Create User
 const create = async options => {
   const user = new UserSchema(options);
@@ -29,6 +34,7 @@ const updateAvatarCloud = async (id, avatar, userIdImg = null) => {
 module.exports = {
   findById,
   findByEmail,
+  findByToken,
   create,
   updateToken,
   updateAvatarCloud,
